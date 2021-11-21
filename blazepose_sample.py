@@ -2,10 +2,10 @@
 
 import numpy as np
 import tensorflow as tf
+import tflite
 
-# Load the TFLite model and allocate tensors.
-interpreter = tf.lite.Interpreter(model_path="pose_detection.tflite")
-interpreter.allocate_tensors()
+# Load the TFLite model
+tfliteModel = tflite.loadTFLiteModel('https://raw.githubusercontent.com/wolframalexa/hardware-module/main/pose_detection.tflite')
 
 # Get input and output tensors.
 input_details = interpreter.get_input_details()
@@ -20,5 +20,5 @@ interpreter.invoke()
 
 # The function `get_tensor()` returns a copy of the tensor data.
 # Use `tensor()` in order to get a pointer to the tensor.
-output_data = interpreter.get_tensor(output_details[0]['index'])
+output_data = tflite.TFLiteModel.predict(output_details[0]['index'])
 print(output_data)
